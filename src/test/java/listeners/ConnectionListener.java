@@ -1,5 +1,6 @@
 package listeners;
 
+import annotations.Connection;
 import inj.ConnectionInjector;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
@@ -10,7 +11,6 @@ import java.lang.reflect.Field;
 
 public class ConnectionListener implements IInvokedMethodListener {
 
-
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         Object testInstance = testResult.getInstance();
@@ -19,29 +19,33 @@ public class ConnectionListener implements IInvokedMethodListener {
 
     private void injectConnectionsRecursively(Object instance) {
         for (Field field : instance.getClass().getDeclaredFields()) {
-            if (field.getType() == UserSteps.class) {
-                boolean accessible = field.isAccessible();
-                field.setAccessible(true);
-                try {
-                    Object fieldValue = field.get(instance);
-                    if (fieldValue != null) {
-                        ConnectionInjector.injectConnections(fieldValue);
-                        injectConnectionsRecursively(fieldValue);
+            boolean accessible = field.isAccessible();
+            field.setAccessible(true);
+            try {
+                Object fieldValue = field.get(instance);
+                if (fieldValue != null) {
+                    for (Field innerField : fieldValue.getClass().getDeclaredFields()) {
+                        if (innerField.isAnnotationPresent(Connection.class)) {
+                            ConnectionInjector.injectConnections(fieldValue);
+                            injectConnectionsRecursively(fieldValue);
+                            break;
+                        }
                     }
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException("Failed to inject EntityManager", e);
-                } finally {
-                    field.setAccessible(accessible);
                 }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException("Failed to inject EntityManager", e);
+            } finally {
+                field.setAccessible(accessible);
             }
         }
     }
 
 
-        @Override
-        public void afterInvocation (IInvokedMethod method, ITestResult testResult){
-            ConnectionInjector.closeConnections();
-        }
-
+    @Override
+    public void afterInvocation (IInvokedMethod method, ITestResult testResult){
+        ConnectionInjector.closeConnections();
     }
+
+
+}
 

@@ -1,5 +1,6 @@
 package listeners;
 
+import annotations.Repository;
 import inj.RepositoryInjector;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
@@ -17,7 +18,7 @@ public class RepositoryListener implements IInvokedMethodListener {
 
     private void injectRepositoriesRecursively(Object instance) {
         for (Field field : instance.getClass().getDeclaredFields()) {
-            if (field.getType() == TRepository.class) {
+            if (field.getType() == Repository.class) {
                 boolean accessible = field.isAccessible();
                 field.setAccessible(true);
                 try {
