@@ -2,6 +2,7 @@ package proxy;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import r.dev.providers.PersistenceProviderFactory;
 import r.dev.proxy.RepositoryProxy;
 import r.entities.UsersEntity;
@@ -39,7 +40,7 @@ public class RepositoryProxyTest {
         var entityManager  = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
-        var userInDb = userRepository.findByUsername("nika");
+        var userInDb = userRepository.findByUsernameCustomQuery("nika");
         assertNotNull(userInDb);
         userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
     }
@@ -50,6 +51,33 @@ public class RepositoryProxyTest {
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findByUserNameParam("nika");
+        assertNotNull(userInDb);
+        userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
+    }
+//    @Test
+//    void testByMethodName(){
+//        var entityManager  = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
+//        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
+//        UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
+//
+//        SoftAssert sa = new SoftAssert();
+//        var queryByUsername = userRepository.queryByUsername("nika");
+//        sa.assertNotNull(queryByUsername);
+//        var findByUsername = userRepository.findByUsername("nika");
+//        sa.assertNotNull(findByUsername);
+//        var getByUsername = userRepository.getByUsername("nika");
+//        sa.assertNotNull(getByUsername);
+//        var readByUsername = userRepository.readByUsername("nika");
+//        sa.assertNotNull(readByUsername);
+//        sa.assertAll();
+//    }
+
+    @Test
+    void testNativeQuery(){
+        var entityManager  = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
+        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
+        UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
+        var userInDb = userRepository.findByUsernameWithNativeQuery("nika");
         assertNotNull(userInDb);
         userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
     }

@@ -10,7 +10,17 @@ import java.util.List;
 public interface UserRepository extends ITRepository<UsersEntity, Long> {
 
     @Query("select u from UsersEntity u where u.username = ?1")
-    List<UsersEntity> findByUsername(String username);
+    List<UsersEntity> findByUsernameCustomQuery(String username);
     @Query("select u from UsersEntity u where u.username = :username")
     List<UsersEntity> findByUserNameParam(@Param("username") String username);
+
+    @Query(value = "select * from users where username = ?1", nativeQuery = true)
+    List<UsersEntity> findByUsernameWithNativeQuery(String username);
+
+
+    //Method name matching without custom @Query annotation
+    List<UsersEntity> queryByUsername(String username);
+    List<UsersEntity> getByUsername(String username);
+    List<UsersEntity> readByUsername(String username);
+    List<UsersEntity> findByUsername(String username);
 }

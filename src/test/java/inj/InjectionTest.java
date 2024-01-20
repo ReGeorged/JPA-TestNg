@@ -1,6 +1,5 @@
 package inj;
 
-import org.springframework.stereotype.Repository;
 import org.testng.annotations.Test;
 import r.repositories.UserRepository;
 
@@ -13,7 +12,7 @@ public class InjectionTest {
 
     @Test
     void testRepositoryInjection(){
-        var userInDb = userRepository.findByUsername("nika");
+        var userInDb = userRepository.findByUsernameCustomQuery("nika");
         assertNotNull(userInDb);
         userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
 
