@@ -54,23 +54,6 @@ public class RepositoryProxyTest {
         assertNotNull(userInDb);
         userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
     }
-//    @Test
-//    void testByMethodName(){
-//        var entityManager  = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
-//        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
-//        UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
-//
-//        SoftAssert sa = new SoftAssert();
-//        var queryByUsername = userRepository.queryByUsername("nika");
-//        sa.assertNotNull(queryByUsername);
-//        var findByUsername = userRepository.findByUsername("nika");
-//        sa.assertNotNull(findByUsername);
-//        var getByUsername = userRepository.getByUsername("nika");
-//        sa.assertNotNull(getByUsername);
-//        var readByUsername = userRepository.readByUsername("nika");
-//        sa.assertNotNull(readByUsername);
-//        sa.assertAll();
-//    }
 
     @Test
     void testNativeQuery(){

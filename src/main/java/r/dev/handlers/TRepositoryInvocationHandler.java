@@ -37,10 +37,6 @@ public class TRepositoryInvocationHandler<E, K> implements InvocationHandler {
             } else {
                 return queryHelper.getSingleResult(query, method, args);
             }
-        } else if (method.getName().startsWith("findBy") || method.getName().startsWith("getBy") || method.getName().startsWith("readBy") || method.getName().startsWith("queryBy")) {
-            QueryHelper queryHelper = new QueryHelper();
-            jakarta.persistence.Query query = queryHelper.createQueryFromMethodName(method.getName(), args, entityManager, clazz);
-            return queryHelper.getResultList(query, method, args);
         }
         return method.invoke(repository, args);
     }

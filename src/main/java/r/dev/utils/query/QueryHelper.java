@@ -10,29 +10,6 @@ import java.util.List;
 
 public class QueryHelper {
 
-    public Query createQueryFromMethodName(String methodName, Object[] args, EntityManager entityManager, Class<?> entityClass) {
-        String field = methodName.split("By")[1];
-        field = Character.toLowerCase(field.charAt(0)) + field.substring(1); // convert first character to lowercase
-        String jpql = "select e from " + entityClass.getSimpleName() + " e where e." + getColumnName(entityClass, field) + " = :value";
-        Query query = entityManager.createQuery(jpql);
-        query.setParameter("value", args[0]);
-        return query;
-    }
-
-    private String getColumnName(Class<?> entityClass, String fieldName) {
-        try {
-            Field field = entityClass.getDeclaredField(fieldName);
-            Column column = field.getAnnotation(Column.class);
-            if (column != null && !column.name().isEmpty()) {
-                return column.name();
-            }
-        } catch (NoSuchFieldException e) {
-            // handle exception
-        }
-        return fieldName;
-    }
-
-
     public  List<?> getResultList(Query query, Method method, Object[] args) {
         setParameters(query, method, args);
         try {
