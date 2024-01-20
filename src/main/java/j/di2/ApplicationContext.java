@@ -67,8 +67,6 @@ public class ApplicationContext {
                 }
             }
         }
-
-        System.out.println("Entity class: " + entityClass);
         return proxyFactory.createProxy(fieldType, entityClass);
     }
 
