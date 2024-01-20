@@ -1,4 +1,4 @@
-package r.dev.utils;
+package r.dev.utils.query;
 
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;

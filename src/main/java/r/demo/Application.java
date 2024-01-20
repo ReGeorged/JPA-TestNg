@@ -1,10 +1,10 @@
-package j.di2;
+package r.demo;
 
 public class Application {
     public static void main(String[] args) {
         try {
             ApplicationContext applicationContext = new ApplicationContext(Application.class);
-            var userServices = applicationContext.getInstance(UserService.class);
+            var userServices = applicationContext.getInstance(UserSteps.class);
             System.out.println(userServices.getUserName());
 
         } catch (Exception e) {

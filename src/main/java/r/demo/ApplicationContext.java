@@ -1,4 +1,4 @@
-package j.di2;
+package r.demo;
 
 
 import org.burningwave.core.assembler.ComponentContainer;

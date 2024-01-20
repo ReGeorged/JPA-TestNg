@@ -5,7 +5,8 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Root;
 import r.dev.irepository.ITRepository;
-import r.dev.utils.RandomQueryHelper;
+import r.dev.utils.query.RandomQueryHelper;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +21,6 @@ public class TRepository<E, K> implements ITRepository<E, K> {
     }
 
     public TRepository() {
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
     }
 
     @Override
