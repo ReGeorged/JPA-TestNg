@@ -1,4 +1,4 @@
-package r.steps;
+package r.demo;
 
 
 import lombok.AllArgsConstructor;
@@ -8,8 +8,6 @@ import r.dev.annotations.Steps;
 import r.repositories.UserRepository;
 
 @Steps
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserSteps {
 
     @Repository("postgres")
