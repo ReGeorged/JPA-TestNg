@@ -18,6 +18,7 @@ public class RepositoryProxyTest {
         var entityManager  = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
+
         var userInDb = userRepository.findById(1L).orElse(null);
         assertNotNull(userInDb);
         System.out.printf("User in db: %s%n", userInDb.getUsername());
@@ -39,6 +40,16 @@ public class RepositoryProxyTest {
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findByUsername("nika");
+        assertNotNull(userInDb);
+        userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
+    }
+
+    @Test
+    void testParametrizedQuery(){
+        var entityManager  = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
+        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
+        UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
+        var userInDb = userRepository.findByUserNameParam("nika");
         assertNotNull(userInDb);
         userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
     }

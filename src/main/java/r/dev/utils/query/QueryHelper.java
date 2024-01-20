@@ -3,7 +3,7 @@ package r.dev.utils.query;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.Query;
-import org.springframework.data.repository.query.Param;
+import r.dev.annotations.Param;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
