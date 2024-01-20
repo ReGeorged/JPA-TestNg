@@ -72,12 +72,6 @@
             <version>12.64.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
-        </dependency>
-
     </dependencies>
 
     <properties>
