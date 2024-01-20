@@ -7,10 +7,18 @@ import r.dev.irepository.ITRepository;
 import java.lang.reflect.Proxy;
 
 public class RepositoryProxy<T extends ITRepository<E, K>, E, K> {
+    private static final ThreadLocal<RepositoryProxy> INSTANCE = new ThreadLocal<>();
     private EntityManager entityManager;
 
-    public RepositoryProxy(EntityManager entityManager) {
+    private RepositoryProxy(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public static <T extends ITRepository<E, K>, E, K> RepositoryProxy<T, E, K> getInstance(EntityManager entityManager) {
+        if (INSTANCE.get() == null) {
+            INSTANCE.set(new RepositoryProxy<>(entityManager));
+        }
+        return INSTANCE.get();
     }
 
     public T createProxy(Class<T> repositoryInterface, Class<E> entityClass) {

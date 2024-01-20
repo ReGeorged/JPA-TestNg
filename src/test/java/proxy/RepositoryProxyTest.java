@@ -14,7 +14,7 @@ public class RepositoryProxyTest {
     @Test
     public void testProxy() {
         var entityManager  = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
-        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = new RepositoryProxy<>(entityManager);
+        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findById(1L).orElse(null);
         assertNotNull(userInDb);
