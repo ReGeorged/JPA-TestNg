@@ -1,31 +1,39 @@
 package j.di2;
 
 
-import j.annotations.ComponentScan;
-import j.annotations.Configuration;
+import org.burningwave.core.assembler.ComponentContainer;
+import org.burningwave.core.classes.ClassHunter;
+import org.burningwave.core.classes.SearchConfig;
 import r.dev.annotations.Repository;
 import r.dev.annotations.Steps;
 import r.dev.irepository.ITRepository;
 import r.dev.providers.PersistenceProviderFactory;
 import r.dev.proxy.RepositoryProxy;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 public class ApplicationContext {
-    Map<Class<?>, Object> objectRegistryMap = new HashMap<>();
+    private final Map<Class<?>, Object> objectRegistryMap = new HashMap<>();
 
-    ApplicationContext(Class<?> clazz) {
-        initializeContext(clazz);
+    public ApplicationContext(Class<?> clazz) throws ClassNotFoundException, IOException {
+        Class<?>[] classes = getClasses(clazz.getPackageName(), true);
+        for (Class<?> loadingClass : classes) {
+            try {
+                if (loadingClass.isAnnotationPresent(Steps.class)) {
+                    Object newInstance = loadingClass.getDeclaredConstructor().newInstance();
+                    objectRegistryMap.put(loadingClass, newInstance);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public <T> T getInstance(Class<T> clazz) throws Exception {
@@ -63,53 +71,25 @@ public class ApplicationContext {
             if (genericInterface instanceof ParameterizedType) {
                 ParameterizedType paramType = (ParameterizedType) genericInterface;
                 if (paramType.getRawType() == ITRepository.class) {
-                    entityClass =  (Class<?>) paramType.getActualTypeArguments()[0];
+                    entityClass = (Class<?>) paramType.getActualTypeArguments()[0];
                 }
             }
         }
         return proxyFactory.createProxy(fieldType, entityClass);
     }
 
-
-    private void initializeContext(Class<?> clazz) {
-        if (!clazz.isAnnotationPresent(Configuration.class)) {
-            throw new RuntimeException("Please provide a valid configuration file!");
-        } else {
-            ComponentScan componentScan = clazz.getAnnotation(ComponentScan.class);
-            String packageValue = componentScan.value();
-            Set<Class<?>> classes = findClasses(packageValue);
-
-            for (Class<?> loadingClass : classes) {
-                try {
-                    if (loadingClass.isAnnotationPresent(Steps.class)) {
-                        Constructor<?> constructor = loadingClass.getDeclaredConstructor();
-                        Object newInstance = constructor.newInstance();
-                        objectRegistryMap.put(loadingClass, newInstance);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+    public Class<?>[] getClasses(String packageName, boolean recursive) throws ClassNotFoundException, IOException {
+        ComponentContainer componentContainer = ComponentContainer.getInstance();
+        ClassHunter classHunter = componentContainer.getClassHunter();
+        String packageRelPath = packageName.replace(".", "/");
+        SearchConfig config = SearchConfig.forResources(packageRelPath);
+        if (!recursive) {
+            config.findInChildren();
         }
-    }
 
-    private Set<Class<?>> findClasses(String packageName) {
-        InputStream stream = ClassLoader.getSystemClassLoader()
-                .getResourceAsStream(packageName.replaceAll("[.]", "/"));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        return reader.lines()
-                .filter(line -> line.endsWith(".class"))
-                .map(line -> getClass(line, packageName))
-                .collect(Collectors.toSet());
-    }
-
-    private Class<?> getClass(String className, String packageName) {
-        try {
-            return Class.forName(packageName + "."
-                    + className.substring(0, className.lastIndexOf('.')));
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        try (ClassHunter.SearchResult result = classHunter.findBy(config)) {
+            Collection<Class<?>> classes = result.getClasses();
+            return classes.toArray(new Class[classes.size()]);
         }
-        return null;
     }
 }
