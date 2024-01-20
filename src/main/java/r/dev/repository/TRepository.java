@@ -22,6 +22,10 @@ public class TRepository<E, K> implements ITRepository<E, K> {
     public TRepository() {
     }
 
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
     @Override
     public Optional<E> findById(K id) {
         return Optional.ofNullable(entityManager.find(clazz, id));
