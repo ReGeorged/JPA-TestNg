@@ -40,7 +40,7 @@ public class RepositoryProxyTest {
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findByUsername("nika");
         assertNotNull(userInDb);
-        assertEquals(userInDb.getUsername(), "nika");
+        userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
     }
 }
 

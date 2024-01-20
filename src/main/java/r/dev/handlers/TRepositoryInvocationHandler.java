@@ -1,13 +1,15 @@
 package r.dev.handlers;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import org.springframework.data.repository.query.Param;
 import r.dev.annotations.Query;
 import r.dev.repository.TRepository;
+import r.dev.utils.query.QueryHelper;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.List;
 
 public class TRepositoryInvocationHandler<E, K> implements InvocationHandler {
     private TRepository<E, K> repository;
@@ -20,17 +22,17 @@ public class TRepositoryInvocationHandler<E, K> implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Query queryAnnotation = method.getAnnotation(Query.class);
         if (queryAnnotation != null) {
+            QueryHelper queryHelper = new QueryHelper();
             String queryString = queryAnnotation.value();
             jakarta.persistence.Query query = repository.getEntityManager().createQuery(queryString);
 
-            // Set the parameter values
-            Parameter[] parameters = method.getParameters();
-            for (int i = 0; i < parameters.length; i++) {
-                query.setParameter(parameters[i].getName(), args[i]);
+            if (List.class.isAssignableFrom(method.getReturnType())) {
+                return queryHelper.getResultList(query, method, args);
+            } else {
+                return queryHelper.getSingleResult(query, method, args);
             }
-
-            return query.getResultList();
         }
+
         return method.invoke(repository, args);
     }
 }
