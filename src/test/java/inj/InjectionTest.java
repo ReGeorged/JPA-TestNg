@@ -1,13 +1,13 @@
 package inj;
 
 import org.testng.annotations.Test;
+import r.dev.annotations.Repository;
 import r.repositories.UserRepository;
 
 import static org.testng.AssertJUnit.assertNotNull;
 
 public class InjectionTest {
-
-//    @Repository("postgres")
+    @Repository("postgres")
     public UserRepository userRepository;
 
     @Test
@@ -15,6 +15,5 @@ public class InjectionTest {
         var userInDb = userRepository.findByUsernameCustomQuery("nika");
         assertNotNull(userInDb);
         userInDb.stream().forEach(n -> System.out.println(n.getUsername()));
-
     }
 }
