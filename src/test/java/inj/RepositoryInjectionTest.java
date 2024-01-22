@@ -6,7 +6,7 @@ import r.repositories.UserRepository;
 
 import static org.testng.AssertJUnit.assertNotNull;
 
-public class InjectionTest {
+public class RepositoryInjectionTest {
     @Repository("postgres")
     public UserRepository userRepository;
 

@@ -38,13 +38,18 @@ public class ApplicationContext {
         }
     }
 
-    public <T> T getInstance(Class<T> clazz) throws Exception {
-        T object = (T) objectRegistryMap.get(clazz);
+    public Object getInstance() throws Exception {
+        for (Map.Entry<Class<?>, Object> entry : objectRegistryMap.entrySet()) {
+            Class<?> clazz = entry.getKey();
+            Object object = entry.getValue();
 
-        Field[] declaredFields = clazz.getDeclaredFields();
-        injectAnnotatedFields(object, declaredFields);
+            Field[] declaredFields = clazz.getDeclaredFields();
+            injectAnnotatedFields(object, declaredFields);
 
-        return object;
+            return object;
+        }
+
+        throw new Exception("No class annotated with @Steps found.");
     }
 
     private <T> void injectAnnotatedFields(T object, Field[] declaredFields) throws Exception {
