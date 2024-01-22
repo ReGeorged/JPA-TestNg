@@ -2,13 +2,13 @@ package r.demo;
 
 public class Application {
     public static void main(String[] args) {
-        try {
+         try {
             ApplicationContext applicationContext = new ApplicationContext(Application.class);
-            var userServices = applicationContext.getInstance(UserSteps.class);
-            System.out.println(userServices.getUserName());
+            var userSteps = applicationContext.getInstance(UserSteps.class);
+            System.out.println(userSteps.getUserName());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
+    }

@@ -20,6 +20,7 @@ import java.util.Map;
 
 
 public class ApplicationContext {
+
     private final Map<Class<?>, Object> objectRegistryMap = new HashMap<>();
 
     public ApplicationContext(Class<?> clazz) throws ClassNotFoundException, IOException {
