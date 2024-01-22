@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="QATA Repository Suite">
+    <test name="Test injections">
+        <classes>
+            <class name="inj.StepsAutowiringTest"/>
+            <class name="inj.StepsInjectionTest"/>
+        </classes>
+    </test>
+    <test name="Test proxy">
+        <classes>
+            <class name="proxy.RepositoryProxyTest"/>
+        </classes>
+    </test>
+
+</suite>

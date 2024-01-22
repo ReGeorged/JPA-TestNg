@@ -1,13 +1,13 @@
 package inj;
 
+import impl.repositories.UserRepository;
+import impl.steps.RagacSteps;
+import impl.steps.UserSteps;
+import org.regeorged.dev.inj.annotations.Inject;
+import org.regeorged.dev.repository.annotations.Repository;
+import org.regeorged.dev.testng.listeners.StepsListener;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import r.dev.annotations.Inject;
-import r.dev.annotations.Repository;
-import r.dev.listeners.StepsListener;
-import r.repositories.UserRepository;
-import r.steps.RagacSteps;
-import r.steps.UserSteps;
 
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -15,7 +15,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 @Listeners(StepsListener.class)
 public class StepsAutowiringTest {
     @Inject
-    private  UserSteps userSteps;
+    private UserSteps userSteps;
     @Inject
     private RagacSteps ragacSteps;
 
@@ -23,13 +23,13 @@ public class StepsAutowiringTest {
     private UserRepository userRepository;
 
     @Test
-    void testRepositoryInjection(){
+    void testRepositoryInjection() {
         var userInDb = userSteps.getFirstUserName();
         assertNotNull(userInDb);
     }
 
     @Test
-    void testRagacSteps(){
+    void testRagacSteps() {
         assertNotNull(ragacSteps.getRagac());
 
     }
