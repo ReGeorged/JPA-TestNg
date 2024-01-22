@@ -2,13 +2,16 @@ package org.regeorged.dev.testng.listeners;
 
 import org.regeorged.dev.inj.ApplicationContext;
 import org.regeorged.dev.inj.annotations.Inject;
+import org.regeorged.dev.persistence.providers.PersistenceProviderFactory;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-public class StepsListener implements ITestListener {
+public class StepsListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onStart(ITestContext context) {
@@ -37,5 +40,11 @@ public class StepsListener implements ITestListener {
         }
 
 
+    }
+
+    @Override
+    public void onFinish(ISuite suite) {
+        // Code to run after all tests in the suite have run
+        PersistenceProviderFactory.closeAllEntityManagers();
     }
 }

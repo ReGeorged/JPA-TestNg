@@ -68,7 +68,7 @@ public class ApplicationContext {
 
     private Object createRepositoryInstance(Field field) throws Exception {
         String databaseName = field.getAnnotation(Repository.class).value();
-        var entityManager = PersistenceProviderFactory.getInstance(databaseName).createEntityManager();
+        var entityManager = PersistenceProviderFactory.getInstance(databaseName);
         RepositoryProxy proxyFactory = RepositoryProxy.getInstance(entityManager);
         // Get the actual entity class from the field's generic type
         Class<?> fieldType = field.getType();

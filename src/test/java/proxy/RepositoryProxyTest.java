@@ -10,11 +10,10 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertNotNull;
 
 public class RepositoryProxyTest {
-    public static final EntityManagerFactory emf = PersistenceProviderFactory.getInstance("postgres");
 
     @Test
     public void testProxy() {
-        var entityManager = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
+        var entityManager = PersistenceProviderFactory.getInstance("postgres");
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
 
@@ -25,8 +24,8 @@ public class RepositoryProxyTest {
 
     @Test(invocationCount = 30, threadPoolSize = 12)
     public void threadedProxyTest() {
-        var entityManager = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
-        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(emf.createEntityManager());
+        var entityManager = PersistenceProviderFactory.getInstance("postgres");
+        RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findById(1L).orElse(null);
         assertNotNull(userInDb);
@@ -35,7 +34,7 @@ public class RepositoryProxyTest {
 
     @Test
     void testQuery() {
-        var entityManager = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
+        var entityManager = PersistenceProviderFactory.getInstance("postgres");
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findByUsernameCustomQuery("nika");
@@ -45,7 +44,7 @@ public class RepositoryProxyTest {
 
     @Test
     void testParametrizedQuery() {
-        var entityManager = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
+        var entityManager = PersistenceProviderFactory.getInstance("postgres");
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findByUserNameParam("nika");
@@ -55,7 +54,7 @@ public class RepositoryProxyTest {
 
     @Test
     void testNativeQuery() {
-        var entityManager = PersistenceProviderFactory.getInstance("postgres").createEntityManager();
+        var entityManager = PersistenceProviderFactory.getInstance("postgres");
         RepositoryProxy<UserRepository, UsersEntity, Long> proxyFactory = RepositoryProxy.getInstance(entityManager);
         UserRepository userRepository = proxyFactory.createProxy(UserRepository.class, UsersEntity.class);
         var userInDb = userRepository.findByUsernameWithNativeQuery("nika");
