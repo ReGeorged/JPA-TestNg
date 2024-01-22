@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="QATA Repository Suite">
+<suite name="QATA Repository Suite" parallel="methods" thread-count="6">
     <test name="Test injections">
         <classes>
             <class name="inj.StepsAutowiringTest"/>
@@ -10,6 +10,12 @@
     <test name="Test proxy">
         <classes>
             <class name="proxy.RepositoryProxyTest"/>
+        </classes>
+    </test>
+
+    <test name="Test Step chaining">
+        <classes>
+            <class name="inj.chain.ChainedStepsTest"/>
         </classes>
     </test>
 

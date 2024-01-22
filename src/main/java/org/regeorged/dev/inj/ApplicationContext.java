@@ -6,6 +6,7 @@ import io.github.classgraph.ScanResult;
 import org.burningwave.core.assembler.ComponentContainer;
 import org.burningwave.core.classes.ClassHunter;
 import org.burningwave.core.classes.SearchConfig;
+import org.regeorged.dev.inj.annotations.Inject;
 import org.regeorged.dev.repository.annotations.Repository;
 import org.regeorged.dev.inj.annotations.Steps;
 import org.regeorged.dev.repository.TRepository;
@@ -57,6 +58,10 @@ public class ApplicationContext {
 
                 field.set(object, repository);
                 injectAnnotatedFields(repository, field.getType().getDeclaredFields());
+            }else if (field.isAnnotationPresent(Inject.class)) {
+                field.setAccessible(true);
+                Object stepsInstance = getInstance(field.getType());
+                field.set(object, stepsInstance);
             }
         }
     }
