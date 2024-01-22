@@ -72,6 +72,11 @@
             <version>12.64.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.classgraph</groupId>
+            <artifactId>classgraph</artifactId>
+            <version>4.8.104</version>
+        </dependency>
     </dependencies>
 
     <properties>
