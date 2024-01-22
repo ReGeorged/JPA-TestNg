@@ -1,9 +1,9 @@
 package org.regeorged.dev.handlers;
 
 import jakarta.persistence.EntityManager;
+import org.regeorged.dev.persistence.query.utils.QueryHelper;
 import org.regeorged.dev.repository.annotations.Query;
 import org.regeorged.dev.repository.impl.TRepository;
-import org.regeorged.dev.persistence.query.utils.QueryHelper;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

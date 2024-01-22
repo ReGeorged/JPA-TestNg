@@ -1,9 +1,9 @@
 package org.regeorged.dev.testng.listeners;
 
 import org.regeorged.dev.inj.ApplicationContext;
+import org.regeorged.dev.inj.annotations.Inject;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
-import org.regeorged.dev.inj.annotations.Inject;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -20,7 +20,7 @@ public class StepsListener implements ITestListener {
                 if (field.getAnnotation(Inject.class) != null) {
                     var fieldClass = applicationContext.getInstance(field.getType());
                     Object toInject = fieldClass;
-                            field.setAccessible(true);
+                    field.setAccessible(true);
                     try {
                         field.set(testInstance, toInject);
                     } catch (IllegalAccessException e) {

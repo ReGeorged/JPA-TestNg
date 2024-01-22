@@ -13,9 +13,16 @@ public class ChainedStepsTest {
 
     @Inject
     private ChainedSteps chainedSteps;
+
     @Test
-    void testStepChaining(){
+    void testStepChaining() {
         Assert.assertNotNull(chainedSteps.getUserAndRagac());
         System.out.println(chainedSteps.getUserAndRagac());
+    }
+
+
+    @Test
+    void testRepoInjInChaindeSteps() {
+        Assert.assertNotNull(chainedSteps.getAll());
     }
 }

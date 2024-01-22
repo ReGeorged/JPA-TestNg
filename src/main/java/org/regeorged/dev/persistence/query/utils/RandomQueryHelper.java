@@ -13,15 +13,15 @@ public class RandomQueryHelper {
     private CriteriaBuilder criteriaBuilder;
     private Expression<?> expression;
 
-    private String getDialect(){
+    private String getDialect() {
         Session session = entityManager.unwrap(Session.class);
         SessionFactory sessionFactory = session.getSessionFactory();
         return ((SessionFactoryImplementor) sessionFactory).getJdbcServices().getDialect().toString();
     }
 
-    public Expression<?> getDialectSpecificRandomFunction(){
+    public Expression<?> getDialectSpecificRandomFunction() {
         String dialect = getDialect();
-        switch (dialect){
+        switch (dialect) {
             case "org.hibernate.dialect.PostgreSQLDialect":
                 return criteriaBuilder.function("RANDOM", Double.class);
             case "org.hibernate.dialect.MySQLDialect":

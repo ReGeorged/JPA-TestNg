@@ -1,8 +1,8 @@
 package impl.steps;
 
-import org.regeorged.dev.repository.annotations.Repository;
-import org.regeorged.dev.inj.annotations.Steps;
 import impl.repositories.UserRepository;
+import org.regeorged.dev.inj.annotations.Steps;
+import org.regeorged.dev.repository.annotations.Repository;
 
 @Steps
 public class UserSteps {

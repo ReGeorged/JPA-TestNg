@@ -8,7 +8,10 @@ import java.util.Map;
 
 public class PersistenceProviderFactory {
     private static final Map<String, EntityManagerFactory> instances = new HashMap<>();
-    private PersistenceProviderFactory() {}
+
+    private PersistenceProviderFactory() {
+    }
+
     public static EntityManagerFactory getInstance(String persistenceUnitName) {
         if (!instances.containsKey(persistenceUnitName)) {
             synchronized (PersistenceProviderFactory.class) {

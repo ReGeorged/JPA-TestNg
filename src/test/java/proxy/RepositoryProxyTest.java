@@ -1,11 +1,11 @@
 package proxy;
 
-import jakarta.persistence.EntityManagerFactory;
-import org.testng.annotations.Test;
-import org.regeorged.dev.persistence.providers.PersistenceProviderFactory;
-import org.regeorged.dev.repository.proxy.RepositoryProxy;
 import impl.entities.UsersEntity;
 import impl.repositories.UserRepository;
+import jakarta.persistence.EntityManagerFactory;
+import org.regeorged.dev.persistence.providers.PersistenceProviderFactory;
+import org.regeorged.dev.repository.proxy.RepositoryProxy;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertNotNull;
 

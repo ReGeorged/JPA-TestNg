@@ -1,6 +1,8 @@
 package org.regeorged.dev.persistence.query.utils;
 
-import jakarta.persistence.*;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.Query;
 import org.regeorged.dev.repository.annotations.Param;
 
 import java.lang.reflect.Method;
@@ -9,7 +11,7 @@ import java.util.List;
 
 public class QueryHelper {
 
-    public  List<?> getResultList(Query query, Method method, Object[] args) {
+    public List<?> getResultList(Query query, Method method, Object[] args) {
         setParameters(query, method, args);
         try {
             return query.getResultList();
@@ -18,7 +20,7 @@ public class QueryHelper {
         }
     }
 
-    public  Object getSingleResult(Query query, Method method, Object[] args) {
+    public Object getSingleResult(Query query, Method method, Object[] args) {
         setParameters(query, method, args);
         try {
             return query.getSingleResult();
@@ -31,7 +33,7 @@ public class QueryHelper {
         }
     }
 
-    private  void setParameters(Query query, Method method, Object[] args) {
+    private void setParameters(Query query, Method method, Object[] args) {
         Parameter[] parameters = method.getParameters();
         for (int i = 0; i < parameters.length; i++) {
             Param paramAnnotation = parameters[i].getAnnotation(Param.class);
