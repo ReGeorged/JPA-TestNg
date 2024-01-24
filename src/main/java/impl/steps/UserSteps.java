@@ -14,5 +14,4 @@ public class UserSteps {
         return usersRepository.findById(1L).get().getUsername();
     }
 
-
 }

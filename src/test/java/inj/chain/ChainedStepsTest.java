@@ -10,17 +10,13 @@ import org.testng.annotations.Test;
 
 @Listeners(StepsListener.class)
 public class ChainedStepsTest {
-
     @Inject
     private ChainedSteps chainedSteps;
 
     @Test
     void testStepChaining() {
         Assert.assertNotNull(chainedSteps.getUserAndRagac());
-        System.out.println(chainedSteps.getUserAndRagac());
     }
-
-
     @Test
     void testRepoInjInChaindeSteps() {
         Assert.assertNotNull(chainedSteps.getAll());
