@@ -37,5 +37,12 @@ public class PersistenceProviderFactory {
                 em.close();
             }
         }
+
+    }
+
+    public static void closeAllFactories(){
+        for(EntityManagerFactory emf : instances.values()){
+            emf.close();
+        }
     }
 }

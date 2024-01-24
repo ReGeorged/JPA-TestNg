@@ -44,7 +44,7 @@ public class StepsListener implements ITestListener, ISuiteListener {
 
     @Override
     public void onFinish(ISuite suite) {
-        // Code to run after all tests in the suite have run
         PersistenceProviderFactory.closeAllEntityManagers();
+        PersistenceProviderFactory.closeAllFactories();
     }
 }
