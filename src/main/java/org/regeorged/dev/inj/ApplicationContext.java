@@ -31,7 +31,9 @@ public class ApplicationContext {
                 Class<?> loadingClass = Class.forName(classInfo.getName());
                 try {
                     Object newInstance = loadingClass.getDeclaredConstructor().newInstance();
-                    objectRegistryMap.put(loadingClass, newInstance);
+                    ThreadLocal<Object> threadLocalInstance = new ThreadLocal<>();
+                    threadLocalInstance.set(newInstance);
+                    objectRegistryMap.put(loadingClass, threadLocalInstance);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -41,11 +43,10 @@ public class ApplicationContext {
 
     public <T> T getInstance(Class<T> clazz) throws Exception {
         T object = (T) objectRegistryMap.get(clazz);
-
+        ThreadLocal<Object> threadLocalInstance = (ThreadLocal<Object>) object;
         Field[] declaredFields = clazz.getDeclaredFields();
-        injectAnnotatedFields(object, declaredFields);
-
-        return object;
+        injectAnnotatedFields(threadLocalInstance.get(), declaredFields);
+        return (T) threadLocalInstance.get();
     }
 
     private <T> void injectAnnotatedFields(T object, Field[] declaredFields) throws Exception {
