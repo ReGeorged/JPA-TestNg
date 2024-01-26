@@ -19,6 +19,8 @@ public class ChainedStepsTest {
     }
     @Test
     void testRepoInjInChaindeSteps() {
-        Assert.assertNotNull(chainedSteps.getAll());
+        var all = chainedSteps.getAll();
+        System.out.println(all);
+        Assert.assertNotNull(all);
     }
 }
