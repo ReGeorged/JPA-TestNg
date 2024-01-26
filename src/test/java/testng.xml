@@ -5,6 +5,7 @@
         <classes>
             <class name="inj.StepsAutowiringTest"/>
             <class name="inj.StepsInjectionTest"/>
+            <class name="inj.StepsInjectionTest"/>
         </classes>
     </test>
     <test name="Test proxy">
@@ -16,6 +17,12 @@
     <test name="Test Step chaining">
         <classes>
             <class name="inj.chain.ChainedStepsTest"/>
+        </classes>
+    </test>
+
+    <test name="Test Sql file">
+        <classes>
+            <class name="sqlfile.SqlFileTest"/>
         </classes>
     </test>
 

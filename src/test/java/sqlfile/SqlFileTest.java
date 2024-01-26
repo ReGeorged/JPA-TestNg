@@ -1,4 +1,4 @@
-package aspect;
+package sqlfile;
 
 import impl.steps.AirplaneSteps;
 import org.regeorged.dev.inj.annotations.Inject;
@@ -8,7 +8,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 @Listeners(StepsListener.class)
-public class AspectsTest {
+public class SqlFileTest {
 
     @Inject
     private AirplaneSteps airplaneSteps;
