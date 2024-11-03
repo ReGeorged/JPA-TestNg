@@ -4,12 +4,12 @@
 
 # Usage example
 
-### create JPA Entity then create a repository interface and extend TRepository
+### Create JPA Entity then create a repository interface and extend TRepository
 ```java
 public interface UserRepository extends TRepository<UsersEntity, Long> {
 }
 ```
-### you can define qustom queries in the repository interface like this
+### You can define custom queries in the repository interface like this
 ```java
 public interface UserRepository extends TRepository<UsersEntity, Long> {
 
@@ -36,7 +36,7 @@ public class UserSteps {
     }
 }
 ```
-### you can also inject other steps in @Steps class
+### You can also inject other steps in the @Steps class
 ```java
 @Steps
 public class ChainedSteps {
